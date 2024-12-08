@@ -1,0 +1,91 @@
+﻿@{
+    ViewData["Title"] = "Login";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .card {
+        border: none;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+    }
+
+    .card-header {
+        background-color: #f8f9fa;
+        border-bottom: none;
+        border-radius: 10px 10px 0 0;
+        padding: 15px;
+    }
+
+    .form-control {
+        border-color: #ced4da;
+        border-radius: 5px;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+        border-radius: 5px;
+    }
+
+        .btn-primary:hover {
+            background-color: #0069d9;
+            border-color: #0062cc;
+        }
+</style>
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card mt-5">
+                <div class="card-header text-center">Login</div>
+                <div class="card-body">
+                    <form id="loginForm">
+                        <div class="form-group">
+                            <label for="username">Username</label>
+                            <input type="text" id="username" name="username" class="form-control" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            <input type="password" id="password" name="password" class="form-control" required />
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block">Login</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#loginForm').on('submit', function (e) {
+                e.preventDefault(); // 防止表单默认提交
+
+                // 获取表单数据
+                var username = $('#username').val();
+                var password = $('#password').val();
+                console.log(username,"用户名")
+                // 使用 AJAX 提交数据
+                $.ajax({
+                    url: '@Url.Action("Login", "User")', // 后端处理登录的接口
+                    type: 'POST',
+                    contentType: 'application/json',  // 指定内容类型为 JSON
+                    data: JSON.stringify({ username: username, password: password }),  // 将数据序列化为 JSON 格式
+                    success: function (response) {
+                        if (response.success) {
+                            alert(response.message); // 弹窗提示登录成功
+                            window.location.href = '@Url.Action("Index", "Home")'; // 登录成功后跳转到首页
+                        } else {
+                            alert(response.message); // 弹窗提示错误信息
+                        }
+                    },
+                    error: function () {
+                        alert("An error occurred while processing your request.");
+                    }
+                });
+            });
+        });
+    </script>
+}

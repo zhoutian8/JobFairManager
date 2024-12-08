@@ -1,0 +1,41 @@
+﻿@{
+    ViewBag.Title = "Resume List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@model IEnumerable<JobFairManager.Dto.ResumesDto>
+
+<div class="container mt-5">
+    <h2>Resume Submission List</h2>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>user</th>
+                <th>position</th>
+                <th>Resume file</th>
+                <th>Submission time</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.Any()) // 检查是否有简历提交
+            {
+                foreach (var resume in Model)
+                {
+                    <tr>
+                        <td>@resume.UserName</td>
+                        <td>@resume.JobName</td>
+                        <td>
+                            <a href="@resume.FilePath" target="_blank">Download Resume</a>
+                        </td>
+                        <td>@resume.SubmissionDate.ToString("yyyy-MM-dd HH:mm")</td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="4" class="text-center">No resume submission record available at the moment</td> <!-- 提示信息 -->
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

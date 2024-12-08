@@ -1,0 +1,58 @@
+﻿@{
+    ViewBag.Title = "Post job vacancies";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@model JobFairManager.Models.Jobs
+
+<div class="container mt-5">
+    <h2 class="mb-4">Post job vacancies</h2>
+
+    <form id="create-article-form">
+        <div class="form-group">
+            <label asp-for="JobTitle"></label>
+            <input asp-for="JobTitle" class="form-control" name="JobTitle" placeholder="Recruitment positions" />
+            <span asp-validation-for="JobTitle" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="JobDescription"></label>
+            <textarea asp-for="JobDescription" class="form-control" name="JobDescription" placeholder="Please enter job responsibilities" rows="10"></textarea>
+            <span asp-validation-for="JobDescription" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Requirements"></label>
+            <textarea asp-for="Requirements" class="form-control" name="Requirements" placeholder="Please enter job requirements" rows="10"></textarea>
+            <span asp-validation-for="Requirements" class="text-danger"></span>
+        </div>
+        <button type="button" class="btn btn-primary" id="submit-article">release</button>
+    </form>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#submit-article').click(function () {
+            var formData = {
+                JobTitle: $('input[name="JobTitle"]').val(),
+                JobDescription: $('textarea[name="JobDescription"]').val(),
+                Requirements: $('textarea[name="Requirements"]').val()  
+            };
+
+            $.ajax({
+                url: '@Url.Action("Create", "Job")',
+                type: 'POST',
+                data: formData,
+                success: function (response) {
+                    if (response.success) {
+                        window.location.href = '@Url.Action("Index", "Home")';
+                    } else {
+                        alert('Publishing failed, please check the input content');
+                    }
+                },
+                error: function () {
+                    alert('Network error, publishing failed, please try again');
+                }
+            });
+        });
+    });
+</script>

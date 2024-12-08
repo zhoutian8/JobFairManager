@@ -1,0 +1,62 @@
+﻿@{
+    ViewBag.Title = "Article details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@model JobFairManager.Models.Jobs
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-10 offset-md-1">
+            <div class="card mb-4 shadow-sm">
+                <div class="card-body">
+                    <h2 class="card-title">招聘职位：@Model.JobTitle</h2>
+                    <hr>
+                    <p class="card-text"><strong>工作职责：</strong> @Model.JobDescription</p>
+                    <p class="card-text"><strong>任职要求：</strong> @Model.Requirements</p>
+                    <p class="card-text">
+                        <small class="text-muted">发布日期：@Model.CreatedDate.ToString("yyyy-MM-dd")</small>
+                    </p>
+                    <hr>
+                    @if (Context.Session.GetString("Username") != null)
+                    {
+                        <div class="d-flex justify-content-end">
+                            <!-- 提交简历按钮，点击进入简历提交页面 -->
+                            <a href="/Resume/Submit?jobId=@Model.JobId" class="btn btn-primary">提交简历</a>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="alert alert-warning" role="alert">
+                            您需要先登录才能提交简历。
+                        </div>
+                        <div class="d-flex justify-content-end">
+                            <a href="/User/Login" class="btn btn-secondary">请先登录</a>
+                        </div>
+                    }
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@* @section Scripts {
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#likeButton').click(function () {
+                $.post('@Url.Action("Like", "Article")', { postId: @Model.Article.Id }, function () {
+                    var likeCount = parseInt($('#likeCount').text());
+                    if ($('#likeButton').text() === 'give the thumbs-up') {
+                        $('#likeButton').text('Cancel like');
+                        $('#likeCount').text(likeCount + 1);
+                    } else {
+                        $('#likeButton').text('give the thumbs-up');
+                        $('#likeCount').text(likeCount - 1);
+                    }
+                });
+            });
+        });
+    </script>
+} *@

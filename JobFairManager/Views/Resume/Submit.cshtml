@@ -1,0 +1,19 @@
+﻿@{
+    ViewBag.Title = "提交简历";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <h2 class="text-center">提交简历</h2>
+            <form method="post" enctype="multipart/form-data" action="/Resume/Submit?jobId=@ViewBag.JobId">
+                <div class="mb-3">
+                    <label for="resumeFile" class="form-label">选择简历文件</label>
+                    <input type="file" class="form-control" id="resumeFile" name="resumeFile" required>
+                </div>
+                <button type="submit" class="btn btn-primary w-100">提交</button>
+            </form>
+        </div>
+    </div>
+</div>
